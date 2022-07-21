@@ -37,7 +37,8 @@ class Filewalker {
             return curFolder.listFiles()
         }
 
-        //not sure if this should return the files themselves or just an array of paths as Strings
+        //Checks to see if any of the child folders of the passed in file are xCenters.
+        // Returns a list of paths as Strings
         fun checkFolderForxCenters(currentFolder : File) : MutableList<String> {
             //list to store xCenter paths as strings
             val xCenterList = mutableListOf<String>()
@@ -52,7 +53,8 @@ class Filewalker {
                 currentFolderContents.forEach {
                     var fileName = it.name
                     if(fileName.contains("Center") || fileName.contains("cc")
-                        || fileName.contains("pc") || fileName.contains("cm")){
+                        || fileName.contains("pc") || fileName.contains("cm")
+                        || fileName.contains("bc")){
                         println("\txCenter found at: ${fileName}")
                         xCenterList.add(it.absolutePath)
                     }
