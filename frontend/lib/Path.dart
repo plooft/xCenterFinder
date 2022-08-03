@@ -26,7 +26,6 @@ Future<Path> fetchPath() async {
   final response = await http.get(url);
   Map<String, dynamic> decodedResponseBody = json.decode(response.body);
 
-
   if(response.statusCode == 200){
     var responseBody = response.body;
     print("200 ok - $responseBody");
@@ -40,5 +39,17 @@ Future<Path> fetchPath() async {
   else{
     throw Exception("Failed to retrieve paths");
   }
+}
+
+/** retrieves all xCenter paths from the backend
+ *
+ */
+Future<List<Path>> fetchAllPaths() async {
+  List<Path> pathList;
+  var url = Uri.parse("http://localhost:8080/");
+  final response = await http.get(url);
+  pathList = (json.decode(response.body) as List).map((i) => Path.fromJson(i)).toList();
+
+  return pathList;
 }
 

@@ -94,14 +94,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it in the middle of the parent.
-        // child: Column( //was here
-          child: FutureBuilder<Path>(
-              future: fetchPath(),
+          child: FutureBuilder<List<Path>>(
+              future: fetchAllPaths(),
               builder: (context, snapshot){
-                if(snapshot.hasData){
-                  print("has data ${snapshot.data!},\n${snapshot.data!.text}");
-                  //TODO: 07/25/2022 remove hardcoded first instance of array
-                  return Text(snapshot.data!.text);
+                if(snapshot.hasData && snapshot.data!.length > 0){
+                  print("Length of returned list: ${snapshot.data!.length}");
+                  print("has data ${snapshot.data![0]},\n${snapshot.data![0].text}");
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return Text(snapshot.data?[index].text ?? "got null");
+                    },
+                  );
                 }
                 else if(snapshot.hasError){
                   return Text('ERROR ${snapshot.error}');
